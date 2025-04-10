@@ -18,10 +18,11 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 
 ### Teórico
 
-| Temas                    | Descripción                                                 | Filminas                                             | Libro/Apunte          |
-| ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------- | --------------------- |
-| Introducción             | Burocracia <br /> A qué apunta la materia                   | [PDF](./theory/slides/01-introduction.pdf)           | Magee & Kramer (1)    |
-| Programación concurrente | Repaso <br /> Transición de estados <br /> Semántica de FSP | [PDF](./theory/slides/02-concurrent_programming.pdf) | Magee & Kramer (2, 3) |
+| Temas                                   | Descripción                                                                                                                      | Filminas                                                          | Libro/Apunte                                                                                      |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Introducción                            | Burocracia <br /> A qué apunta la materia                                                                                        | [PDF](./theory/slides/01-introduction.pdf)                        | Magee & Kramer (1)                                                                                |
+| Programación concurrente                | Repaso <br /> Transición de estados <br /> Semántica de FSP                                                                      | [PDF](./theory/slides/02-concurrent_programming.pdf)              | Magee & Kramer (2, 3)                                                                             |
+| Sincronización de procesos concurrentes | Interferencia y exclusión mutua <br /> Monitores, semáforos y buffers <br /> Simulación y bisimulación <br /> Pasaje de mensajes | [PDF](./theory/slides/03-concurrent_programs_synchronization.pdf) | Magee & Jramer (4, 5, 10) <br /> [Notas de clase](./theory/notes/simulation_and_bisimulation.pdf) |
 
 ### Práctico
 
