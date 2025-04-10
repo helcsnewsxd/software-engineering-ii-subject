@@ -27,6 +27,7 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 | Sincronización de procesos concurrentes             | Interferencia y exclusión mutua <br /> Monitores, semáforos y buffers <br /> Simulación y bisimulación <br /> Pasaje de mensajes | [PDF](./theory/slides/03-concurrent_programs_synchronization.pdf)               | Magee & Jramer (4, 5, 10) <br /> [Notas de clase](./theory/notes/simulation_and_bisimulation.pdf) |
 | Propiedades de los sistemas reactivos y su análisis | Lenguajes $\omega$-regulares <br /> Safety y liveness <br /> Vista en FSP                                                        | [PDF](./theory/slides/04-properties_of_reactive_systems_and_their_analysis.pdf) | Magee & Kramer (6, 7) <br /> Alpern & Schneider (21:182-185) <br /> Baier & Katoen (3, 4)         |
 | Lógica temporal lineal                              | LTL <br /> Safety, liveness y fairness                                                                                           | [PDF](./theory/slides/05-linear_temporal_logic.pdf)                             | Baier & Katoen (4, 5)                                                                             |
+| Model Checking                                      | Autómatas de Büchi <br /> SPIN y SMV                                                                                             | [PDF](./theory/slides/06-model_checking.pdf)                                    | Müller-Olm (1, 2, 4.2, 4.4)                                                                       |
 
 </div>
 
