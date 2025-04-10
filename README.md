@@ -18,9 +18,9 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 
 ### Teórico
 
-| Temas | Descripción | Filminas | Libro/Apunte |
-| ----- | ----------- | -------- | ------------ |
-|       |             |          |              |
+| Temas        | Descripción                               | Filminas                                   | Libro/Apunte       |
+| ------------ | ----------------------------------------- | ------------------------------------------ | ------------------ |
+| Introducción | Burocracia <br /> A qué apunta la materia | [PDF](./theory/slides/01-introduction.pdf) | Magee & Kramer (1) |
 
 ### Práctico
 
