@@ -18,9 +18,10 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 
 ### Teórico
 
-| Temas        | Descripción                               | Filminas                                   | Libro/Apunte       |
-| ------------ | ----------------------------------------- | ------------------------------------------ | ------------------ |
-| Introducción | Burocracia <br /> A qué apunta la materia | [PDF](./theory/slides/01-introduction.pdf) | Magee & Kramer (1) |
+| Temas                    | Descripción                                                 | Filminas                                             | Libro/Apunte          |
+| ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------- | --------------------- |
+| Introducción             | Burocracia <br /> A qué apunta la materia                   | [PDF](./theory/slides/01-introduction.pdf)           | Magee & Kramer (1)    |
+| Programación concurrente | Repaso <br /> Transición de estados <br /> Semántica de FSP | [PDF](./theory/slides/02-concurrent_programming.pdf) | Magee & Kramer (2, 3) |
 
 ### Práctico
 
