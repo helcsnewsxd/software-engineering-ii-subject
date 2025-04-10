@@ -11,6 +11,7 @@ Los temas que trata la materia se pueden ver en el [programa](./information/stud
 - D. Jackson. Software Abstractions: Logic, Language, and Analysis (Revised Edition). MIT Press, 2016.
 - D. Kroening y O. Strichman. Decision Procedures: An Algorithmic Point of View. 2nd. edition. Springer, 2016.
 - A. Biere, M. Heule, H. van Maaren, y T. Walsh (eds.). Handbook of Satisfiability. 2nd edition. IOS press, 2021.
+- M. Müller-Olm, D. Schmidt, B. Steffen. Model Checking: A Tutorial Introduction. En A. Cortesi, G. Filé (Eds.), Procs. Of SAS'99, LNCS 1694, pp. 330-354. Springer 1999.
 
 El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 
