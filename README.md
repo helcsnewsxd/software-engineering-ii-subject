@@ -4,7 +4,7 @@ El presente repositorio contiene todo el material correspondiente a la cursada d
 
 ## Información general
 
-Los temas que trata la materia se pueden ver en el [programa]() de la misma. Respecto al material, este está basado en los siguientes libros:
+Los temas que trata la materia se pueden ver en el [programa](./information/study_program.pdf) de la misma. Respecto al material, este está basado en los siguientes libros:
 
 - J. Magee y J. Kramer. Concurrency: State Models & Java Programs, 2nd edition. Wiley 2006.
 - C. Baier y J.-P. Katoen. Principles of Model Checking. MIT Press, 2008.
