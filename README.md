@@ -46,3 +46,5 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 </div>
 
 ### Proyecto
+
+Toda la información acerca de las pautas del proyecto y de qué se trata puede encontrarse [aquí](./project/presentation.pdf).
