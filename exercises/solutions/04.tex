@@ -145,10 +145,10 @@ Se define el operador \textit{while} como:
 \end{equation*}
 
 Para poder resolver los siguientes items de este ejercicio, va a ser útil desglosar la definición para entenderla a detalle.
-Tomemos la definición de $(6.1)$ y digamos que tenemos el mayor $x$ tal que $\forall 0 \leq j \leq x : \sigma[j..] \vDash \psi$.
+Tomemos la definición de $(6.1)$ y digamos que tenemos un $x$ tal que $\forall 0 \leq j \leq x : \sigma[j..] \vDash \psi$.
 Ahora, por la definición, sabemos que $\sigma[x..] \vDash \varphi$.
 Además, es trivial notar que $\forall 0 \leq j \leq x-1 : \sigma[j..] \vDash \psi$, por lo que por definición $\sigma[(x-1)..] \vDash \varphi$.
-Expandiendo esta idea, llegamos a que $\forall 0 \leq j \leq x : \sigma[j..] \vDash \psi$.
+Expandiendo esta idea, llegamos a que $\forall 0 \leq j \leq x : \sigma[j..] \vDash \varphi$.
 
 Con lo anterior, la definición puede pasar a ser:
 \begin{equation*}
@@ -159,6 +159,9 @@ Con lo anterior, la definición puede pasar a ser:
 El \textbf{primer punto} solicita expresar el operador \textit{while} en términos del \textit{until} y expresiones booleanas.
 Para ello, podremos pensar que siempre en el prefijo se cumple $\psi \to \varphi$ hasta que deja de cumplirse $\psi$.
 Es decir: $\varphi \text{W} \psi \equiv ((\psi \to \varphi) \text{U} \neg\psi) \lor \square(\psi \land \varphi)$.
+Lo único a modificar es el \textit{globally}, el cual se puede considerar como $\neg (\text{T}\ \text{U} \neg (\psi \land \varphi))$ donde $T$ es una tautología.
+Notar que en este caso se busca que no se cumpla que en algún momento suceda $\neg (\psi \land \varphi)$.
+Por ello, decimos que: $\varphi \text{W} \psi \equiv ((\psi \to \varphi) \text{U} \neg\psi) \lor \neg(\text{T}\ \text{U} \neg(\psi \land \varphi))$.
 
 Finalmente, el \textbf{segundo punto} pide expresar el operator \textit{until} en términos del \textit{while} y operaciones booleanas.
 Aquí, como queremos que el until sea $\varphi \text{U} \psi$ y dada la definición vista anteriormente, tomaremos algo de la forma $\gamma \text{W} \neg\psi \land \diamondsuit\psi$.
@@ -171,14 +174,11 @@ Si bien esto no es posible, podemos considerar $\gamma = \varphi$ tal que $\varp
 
 Si bien este último punto es diferente al until que queremos, igualmente es válido dado que cuando valga por primera vez $\psi$ este marcará el final del until.
 En las posiciones anteriores a este final, se cumplirá $\neg\psi$ por lo que el implica determina que vale $\varphi$ en cada paso anterior.
-Por ello, finalmente, consideramos $\varphi \text{U} \psi \equiv \varphi \text{W} \neg\psi \land \diamondsuit\psi$
-
-Notar que ninguno de los puntos se pudo satisfacer dado que se tuvieron que utilizar operadores temporales además del until y el while.
-
-% TODO: Consultar al profesor.
-\begin{quotation}
-	\textbf{\textcolor{Red}{Nota:}} ¿Está bien justificarlo de este modo o debo expandir sí o sí con el para todo y existe?
-\end{quotation}
+Por ello, finalmente, consideramos $\varphi \text{U} \psi \equiv \varphi \text{W} \neg\psi \land \diamondsuit\psi$.
+El único paso que resta realizar es la traducción de $\diamondsuit\psi$ con el uso del \textit{while}.
+Para ello, tenemos $\diamondsuit\psi \equiv \neg(\neg\psi \text{W T})$ dado que no se cumple que mientras suceda ``cualquier propiedad'' no se cumpla $\psi$.
+Notar que el while aquí junto a la tautología ayuda a expresar el globally.
+Finalmente, la equivalencia queda como $\varphi \text{U} \psi \equiv (\varphi \text{W} \neg\psi) \land \neg(\neg\psi \text{W T})$.
 
 \section*{Ejercicio 7}
 Queremos definir el operador $\text{Z}$ tal que $\varphi \text{Z} \psi$ represente la propiedad de que siempre entre dos posiciones distintas en las cuales valga $\varphi$, existe una en la que vale $\psi$.
@@ -187,11 +187,6 @@ Considero que estar entre medio de las otras dos implica que no se consideran lo
 Motivo de ello, la definición que doy es la siguiente: $\square(\varphi \to \neg\bigcirc(\neg\psi \text{U} \varphi))$.
 Es decir, me concentro en la negación de la propiedad para definirla.
 Considero que cuando ``veo'' un $\varphi$, entonces a partir de la siguiente posición no puede pasar que veo otro $\varphi$ antes de algún $\psi$.
-
-%TODO: Consultar al profesor 
-\begin{quotation}
-	\textbf{\textcolor{Red}{Nota:}} En ejercicios de este tipo, ¿basta con dar la definición y explicar la idea? ¿O cómo deberíamos justificarlo?
-\end{quotation}
 
 \section*{Ejercicio 8}
 Veamos cada autómata con alfabeto $\{a, b, c\}$ por separado.
@@ -214,17 +209,8 @@ Para el conjunto de cadenas infinitas que no terminen en una secuencia infinita 
 	\centering
 \end{figure}
 
-\pagebreak
-Y para el conjunto de cadenas infinitas con cantidades finitas de $a$, $b$ y $c$, interpreto que se quiso referir a que alguna de las tres es finita porque si las tres lo son al mismo tiempo, la cadena no puede ser infinita.
-Por ello, el diagrama nos queda:
-\begin{figure}[!htb]
-	\includegraphics[width=0.7\textwidth]{04-08-d.png}
-	\centering
-\end{figure}
-
-\begin{quotation}
-	\textbf{\textcolor{Red}{Nota:}} ¿Es correcta la interpretación del último punto de este ejercicio?
-\end{quotation}
+Y para el conjunto de cadenas infinitas con cantidades finitas de $a$, $b$ y $c$, como el alfabeto es $\{a, b, c\}$, entonces el conjunto es claramente vacío.
+Por ello, el autómata de Büchi puede ser cualquiera siempre y cuando el conjunto de estados aceptados sea vacío.
 
 \section*{Ejercicio 9}
 Notemos que el diagrama de la izquierda representa el lenguaje $\omega$-regular $b^*a(a + b)^\omega$ mientras que el de la derecha a $(a + b)^*a(a + b)^\omega$.
@@ -234,11 +220,6 @@ Se puede verificar que esto no modifica el lenguaje del autómata porque en ambo
 Respecto al lenguaje $\omega$-regular, como bien se dijo antes, es aquél que expresa que toda traza con al menos una $a$ es aceptada.
 Por motivos de facilidad para notar el prefijo que se quiere, considero la expresión no determinística del autómata de la derecha.
 
-\begin{quotation}
-	\textbf{\textcolor{Red}{Nota:}} ¿Es correcto o cómo debemos solucionar un ejercicio de este estilo?
-\end{quotation}
-
-\pagebreak
 \section*{Ejercicio 10}
 Las expresiones $\omega$-regulares tratadas en los ejercicios 8, 9 y 10 de la anterior guía se presentan a continuación junto con el autómata de Büchi correspondiente:
 \begin{figure}[!htb]
@@ -280,7 +261,7 @@ Las expresiones $\omega$-regulares tratadas en los ejercicios 8, 9 y 10 de la an
 		\caption{$(ab)^*a^\omega$}
 	\end{subfigure}
 	\hfil
-	\begin{subfigure}[b]{0.3\textwidth}
+	\begin{subfigure}[b]{0.2\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-10-07.png}
 		\caption{$a^*(a^\omega + b^\omega)$}
@@ -292,7 +273,7 @@ Las expresiones $\omega$-regulares tratadas en los ejercicios 8, 9 y 10 de la an
 		\caption{$\Sigma^\omega$}
 	\end{subfigure}
 	\hfil
-	\begin{subfigure}[b]{0.5\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-10-09.png}
 		\caption{$a^*b^+a^\omega + a^\omega + b^\omega$}
@@ -304,13 +285,13 @@ Las expresiones $\omega$-regulares tratadas en los ejercicios 8, 9 y 10 de la an
 		\caption{$(a^*b^\omega) + (a + b)^*b^\omega = (a + b)^*b^\omega$}
 	\end{subfigure}
 	\hfil
-	\begin{subfigure}[b]{0.5\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-10-11.png}
 		\caption{$a^*b^+a^\omega + (a + b)^*(ab)^\omega$}
 	\end{subfigure}
 	\hfil
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.35\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{04-10-12.png}
 		\caption{$(ab)^*a^\omega + (a + b)^*b^\omega$}
