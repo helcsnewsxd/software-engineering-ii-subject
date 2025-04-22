@@ -298,4 +298,165 @@ Las expresiones $\omega$-regulares tratadas en los ejercicios 8, 9 y 10 de la an
 	\end{subfigure}
 \end{figure}
 
+\section*{Ejercicio 11}
+Dados $\mathcal{A}_i = (S_i, s_0^i, \delta_i, \Sigma, A_i)$ con $i = 1, 2$ autómatas de Büchi, se define la intersección como:
+\begin{equation*}
+	\mathcal{A}_1 \cap \mathcal{A}_2 = (S_1 \times S_2 \times \{0, 1, 2\}, (s_0^1, s_0^2, 0), \delta, \Sigma, S_1 \times S_2 \times \{2\})
+\end{equation*}
+donde:
+\begin{equation*}
+	\begin{aligned}
+		(s_1', s_2', i)                                           & \in \delta((s_1, s_2, j), a)                          \\
+		                                                          & \Updownarrow                                          \\
+		s_1' \in \delta_1(s_1, a) \land s_2' \in \delta_2(s_2, a) & \land \begin{cases}
+			                                                                       & (j = 0 \land s_1 \in A_1 \land i = 1)    \\
+			                                                                  \lor & (j = 0 \land s_1 \notin A_1 \land i = 0) \\
+			                                                                  \lor & (j = 1 \land s_2 \in A_2 \land i = 2)    \\
+			                                                                  \lor & (j = 1 \land s_2 \notin A_2 \land i = 1) \\
+			                                                                  \lor & (j = 2 \land i = 0)
+		                                                                  \end{cases}
+	\end{aligned}
+\end{equation*}
+
+\section*{Ejercicio 12}
+Se pretende demostrar la igualdad $\overline{L(A_\varphi)} = L(A_{\neg\varphi})$.
+Para ello, sea $\sigma$ una traza, veamos que:
+\begin{equation*}
+	\begin{aligned}
+		\sigma \in \overline{L(A_\varphi)} & \iff \sigma \notin L(A_\varphi)    \\
+		                                   & \iff \sigma \notin L(\varphi)      \\
+		                                   & \iff \sigma \not\vDash \varphi     \\
+		                                   & \iff \sigma \vDash \neg\varphi     \\
+		                                   & \iff \sigma \in L(\neg\varphi)     \\
+		                                   & \iff \sigma \in L(A_{\neg\varphi})
+	\end{aligned}
+\end{equation*}
+
+Luego, como $\forall \sigma : \sigma \in \overline{L(A_\varphi)} \iff \sigma \in L(A_{\neg\varphi})$, se demuestra la igualdad de los lenguajes.
+
+\section*{Ejercicio 13}
+Sea $\varphi$ una fórmula, se pretende dar un algoritmo para corroborar que sea satisfactible, es decir, si es verdadera en algún modelo.
+
+Para ello, notemos que:
+\begin{equation*}
+	\begin{aligned}
+		\varphi \text{ es satisfactible} & \iff \exists \sigma : \sigma \vDash \varphi           \\
+		                                 & \iff \exists \sigma : \sigma \in \mathcal{L}(\varphi) \\
+		                                 & \iff \mathcal{L}(\varphi) \neq \emptyset              \\
+		                                 & \iff \mathcal{L}(\mathcal{A_\varphi}) \neq \emptyset
+	\end{aligned}
+\end{equation*}
+
+Luego, entonces, el algoritmo se reduce a:
+\begin{enumerate}
+	\item Construir el autómata de Büchi de $\varphi$.
+	\item Calcular el lenguaje de $\mathcal{A}_\varphi$.
+	\item Corroborar la no vacuidad en el lenguaje.
+\end{enumerate}
+
+\section*{Ejercicio 14}
+Se pretende dar un algoritmo que corrobore si un modelo $M$ refina a otro modelo $M'$, es decir, si todas las propiedades que $M$ satisface también las satisface $M'$.
+
+Para ello, notemos que:
+\begin{equation*}
+	\begin{aligned}
+		(\forall \varphi : M \vDash \varphi \Rightarrow M' \vDash \varphi) & \iff \mathcal{L}(M) \subseteq \mathcal{L}(M')                                             \\
+		                                                                   & \iff \mathcal{L}(M) \cap \overline{\mathcal{L}(M')} = \emptyset                           \\
+		                                                                   & \iff \mathcal{L}(\mathcal{A}_M) \cap \overline{\mathcal{L}(\mathcal{A}_{M'})} = \emptyset \\
+		                                                                   & \iff \mathcal{L}(\mathcal{A}_M) \cap \mathcal{L}(\mathcal{A}_{M'}^c) = \emptyset
+	\end{aligned}
+\end{equation*}
+
+Luego, entonces, el algoritmo se reduce a:
+\begin{enumerate}
+	\item Construir el autómata de Büchi de $\mathcal{A}_M$.
+	\item Construir el autómata complemento de Büchi $\mathcal{A}^c_{M'}$.
+	\item Calcular los lenguajes $\mathcal{L}(\mathcal{A}_M)$ y $\mathcal{L}(\mathcal{A}^c_{M'})$.
+	\item Corroborar vacuidad en la intersección de los lenguajes.
+\end{enumerate}
+
+\section*{Ejercicio 15}
+
+\subsection*{Item 1}
+Se busca representar la propiedad de safety del problema de lectores-escritores.
+Para ello, notar que se puede expresar positivamente como:
+\begin{equation*}
+	\square((\text{reader} > 0 \land \text{writer} = 0) \lor (\text{reader} = 0 \land \text{writer} \leq 1))
+\end{equation*}
+o, de forma más compacta e intuitiva, en su forma negativa:
+\begin{equation*}
+	\neg\diamondsuit(\text{reader} > 0 \land \text{writer} > 0)
+\end{equation*}
+
+\subsection*{Item 2}
+Se busca representar, ahora, fairness incondicional en el problema de lectores y escritores.
+Recordemos que fairness incondicional significa que el evento debe ocurrir de manera recurrente.
+Por ello, tenemos:
+\begin{equation*}
+	\square\diamondsuit(\text{reader} > 0) \land \square\diamondsuit(\text{writer} > 0)
+\end{equation*}
+
+\section*{Ejercicio 16}
+Para representar la exclusión mutua (i.e., solo uno puede usar la impresora en un momento dado), consideraremos:
+\begin{equation*}
+	\neg\diamondsuit(\text{Itchy.use} \land \text{Scratchy.use})
+\end{equation*}
+
+Para representar que el tiempo de uso es finito (i.e., uno no puede estar habilitado durante un tiempo continuo infinito), tenemos:
+\begin{equation*}
+	\neg \diamondsuit (\text{Itchy.request} \land \bigcirc \neg \diamondsuit \text{I.release}) \land \neg \diamondsuit (\text{Scratchy.request} \land \bigcirc \neg \diamondsuit \text{S.release})
+\end{equation*}
+
+Ahora, para representar la ausencia de inanición individual (i.e., si uno pretende imprimir algo, ocasionalmente lo podrá hacer), consideraré que lo importante no es el uso de la impresora sino que el usuario haya sido habilitado para su uso.
+Es decir, se busca que si se hace una request por parte de un usuario, entonces en algún momento este hará un release (lo que significa que la tuvo habilitada durante un tiempo):
+\begin{equation*}
+	\square ((\text{Itchy.request} \to \bigcirc \diamondsuit \text{Itchy.release}) \land (\text{Scratchy.request} \to \bigcirc \diamondsuit \text{Scratchy.release}))
+\end{equation*}
+
+Y, finalmente, para representar el acceso alternante (i.e., el uso de la impresora se hace de forma alternada estricta), consideraré que lo que se alterna son las habilitaciones.
+Por ello, la mejor forma de encararlo es que siempre que un usuario haga un release, entonces no puede hacer otro release antes de que el otro usuario libere la impresora.
+Esto es equivalente a decir que si termino un período de habilitación, entonces no puedo terminar otro a continuación sin que otra persona use la impresora antes porque estaríamos rompiendo el acceso alternante.
+Con esto, nos queda:
+\begin{equation*}
+	\begin{aligned}
+		\neg \diamondsuit \left(\left(\text{Itchy.release} \land \bigcirc \left(\neg \text{Scratchy.release U Itchy.release}\right)\right)\right) \land \\
+		\neg \diamondsuit \left(\left(\text{Scratchy.release} \land \bigcirc \left(\neg \text{Itchy.release U Scratchy.release}\right)\right)\right)
+	\end{aligned}
+\end{equation*}
+
+\section*{Ejercicio 17}
+Las proposiciones atómicas que se considerarán para modelar el problema son las siguientes:
+\begin{itemize}
+	\item $\text{request}.i$
+	\item $\text{open}.i$
+	\item $\text{move}$
+\end{itemize}
+con $0 \leq i < N$.
+
+Además, recordemos que el ascensor tiene memoria, por lo que una request está ``prendida'' desde que se inició este hasta que el ascensor abra sus puertas en el piso correspondiente.
+
+Respecto a las fórmulas LTL, tenemos:
+\begin{enumerate}
+	\item La puerta no está abierta si no está en el piso correspondiente:
+	      \begin{equation*}
+		      \neg \diamondsuit (\neg \text{request}.i \land \text{open}.i) \qquad \forall 0 \leq i < N
+	      \end{equation*}
+	\item El requerimiento será atendido en algún momento:
+	      \begin{equation*}
+		      \square (\text{request}.i \to \diamondsuit \text{open}.i) \qquad \forall 0 \leq i < N
+	      \end{equation*}
+	\item Siempre retorna a planta baja (lo interpreto como que frecuentemente va a abrir sus puertas ahí):
+	      \begin{equation*}
+		      \square \diamondsuit \text{open}.0
+	      \end{equation*}
+	\item Cuando hay un requerimiento para $N-1$, se atiende inmediatamente:
+	      \begin{equation*}
+		      \square (\text{request}.(N-1) \to (\neg \text{open}.0 \land \dots \land \neg \text{open}.(N-2)) \text{ U } \text{open}.(N-1))
+	      \end{equation*}
+	\item El ascensor no se mueve a menos que se requiera:
+	      \begin{equation*}
+		      \square ((\text{request}.0 \lor \dots \lor \text{request}.(N-1)) \leftrightarrow \text{move})
+	      \end{equation*}
+\end{enumerate}
+
 \end{document}
