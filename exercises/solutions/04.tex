@@ -350,8 +350,7 @@ Para ello, notemos que:
 Luego, entonces, el algoritmo se reduce a:
 \begin{enumerate}
 	\item Construir el autómata de Büchi de $\varphi$.
-	\item Calcular el lenguaje de $\mathcal{A}_\varphi$.
-	\item Corroborar la no vacuidad en el lenguaje.
+	\item Corroborar la no vacuidad sobre $\mathcal{A}_\varphi$.
 \end{enumerate}
 
 \section*{Ejercicio 14}
@@ -360,19 +359,23 @@ Se pretende dar un algoritmo que corrobore si un modelo $M$ refina a otro modelo
 Para ello, notemos que:
 \begin{equation*}
 	\begin{aligned}
-		(\forall \varphi : M \vDash \varphi \Rightarrow M' \vDash \varphi) & \iff \mathcal{L}(M) \subseteq \mathcal{L}(M')                                             \\
-		                                                                   & \iff \mathcal{L}(M) \cap \overline{\mathcal{L}(M')} = \emptyset                           \\
-		                                                                   & \iff \mathcal{L}(\mathcal{A}_M) \cap \overline{\mathcal{L}(\mathcal{A}_{M'})} = \emptyset \\
-		                                                                   & \iff \mathcal{L}(\mathcal{A}_M) \cap \mathcal{L}(\mathcal{A}_{M'}^c) = \emptyset
+		(\forall \varphi : M \vDash \varphi \Rightarrow M' \vDash \varphi) & \iff \forall \varphi : (\forall \sigma \in \mathcal{L}(M) : \sigma \vDash \varphi) \Rightarrow (\forall \sigma \in \mathcal{L}(M') : \sigma \vDash \varphi) \\
+		                                                                   & \iff \forall \varphi : \mathcal{L}(M) \subseteq \varphi \Rightarrow \mathcal{L}(M') \subseteq \varphi                                                       \\
+		                                                                   & \iff \mathcal{L}(M') \subseteq \mathcal{L}(M) \qquad \text{porque el menor } \varphi \text{ que se puede tomar }                                            \\
+		                                                                   & \qquad\qquad\qquad\qquad\qquad\qquad \text{en la implicación anterior es } \mathcal{L}(M)                                                                   \\
+		                                                                   & \iff \mathcal{L}(M') \cap \overline{\mathcal{L}(M)} = \emptyset                                                                                             \\
+		                                                                   & \iff \mathcal{L}(\mathcal{A}_{M'}) \cap \overline{\mathcal{L}(\mathcal{A}_M)} = \emptyset                                                                   \\
+		                                                                   & \iff \mathcal{L}(\mathcal{A}_{M'}) \cap \mathcal{L}(\mathcal{A}_M^c) = \emptyset                                                                            \\
+		                                                                   & \iff \mathcal{L}(\mathcal{A}_{M'} \cap \mathcal{A}_{M'}^c) = \emptyset
 	\end{aligned}
 \end{equation*}
 
 Luego, entonces, el algoritmo se reduce a:
 \begin{enumerate}
-	\item Construir el autómata de Büchi de $\mathcal{A}_M$.
-	\item Construir el autómata complemento de Büchi $\mathcal{A}^c_{M'}$.
-	\item Calcular los lenguajes $\mathcal{L}(\mathcal{A}_M)$ y $\mathcal{L}(\mathcal{A}^c_{M'})$.
-	\item Corroborar vacuidad en la intersección de los lenguajes.
+	\item Construir el autómata de Büchi de $\mathcal{A}_{M'}$.
+	\item Construir el autómata complemento de Büchi $\mathcal{A}^c_{M}$.
+	\item Construir el autómata intersección $\mathcal{A}_{M'} \cap \mathcal{A}_M^c$.
+	\item Corroborar vacuidad sobre el autómata intersección.
 \end{enumerate}
 
 \section*{Ejercicio 15}

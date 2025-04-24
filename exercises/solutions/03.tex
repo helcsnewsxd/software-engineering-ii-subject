@@ -106,7 +106,7 @@ Notar que esto significa que safety es cerrado por intersección.
 Ahora queremos ver si liveness es cerrado por intersección.
 Para ello, vamos a ver por contraejemplo que esto no es así.
 
-Supongamos $\Sigma = \{a, b\}$, $P = (ab)^* a^\omega$ y $Q = (ab)^* b^\omega$.
+Supongamos $\Sigma = \{a, b\}$, $P = (a + b)^* a^\omega$ y $Q = (a + b)^* b^\omega$.
 Dado que nuestra definición de liveness es la siguiente:
 \begin{equation}
 	\tag{4.1}
@@ -158,13 +158,16 @@ Considerando $\Sigma = \{a, b\}$, veamos cada una de las propiedades para catalo
 	\item $a^*b^+a^\omega$: No es de safety porque $b^\omega$ no cumple la propiedad pero para todo prefijo si lo concatenamos con $a^\omega$ sí la cumple.
 	      No es de liveness porque el prefijo $bab$ no se puede arreglar.
 	\item $(a + b)^*(a^\omega + b^\omega)$: Es de liveness porque para todo prefijo posible, si lo concatenamos con $a^\omega$ o con $b^\omega$, cumple la propiedad.
-	\item $(ab)^\omega$: Es de safety y los prefijos malos son $(a + b)^*(aa + bb) + b$.
+	\item $(ab)^\omega$: Es de safety porque las trazas se pueden caracterizar del siguiente modo: $\{\sigma \in \Sigma^\omega : \forall i \geq 0 : \sigma(2i) = a \land \sigma(2i + 1) = b\}$.
+	      Luego, el complemento de la propiedad es $\{\sigma \in \Sigma^\omega : \exists i \geq 0 : \sigma(2i) = b \lor \sigma(2i + 1) = a\}$, lo cual puede expresarse en $\omega$-regular como $(ab)^*(b + (a + b)a)(a + b)^\omega$.
+	      Por ello, es sencillo notar que si una traza pertenece al complemento de la propiedad, entonces para ese prefijo malo no existe ninguna traza que pueda ``arreglarlo'', lo que significa que se cumple la implicación de safety.
 	\item $(ab)^*a^\omega$: No es de safety porque $(ab)^\omega$ no cumple la propiedad pero para todo prefijo si lo concatenamos con $a^\omega$ sí cumple la propiedad.
 	      No es de liveness porque el prefijo $b$ no se puede arreglar.
 \end{itemize}
 
 \section*{Ejercicio 9}
-Para $a^*b^\omega$ solo hace falta agregar la traza $a^\omega$. Es decir, la reformulamos como $a^*(a^\omega + b^\omega)$ de modo que el prefijo malo es $(a + b)^*ba$.
+Para $a^*b^\omega$ solo hace falta agregar la traza $a^\omega$.
+Es decir, la reformulamos como $a^*(a^\omega + b^\omega)$ de modo que el prefijo malo es $(a + b)^*ba$.
 
 Para $(b+a)^+b^\omega$ se puede notar que todo prefijo se puede extender concatenando $b^\omega$ para que cumpla la propiedad.
 Por ello, ninguna extensión podrá hacer que esta propiedad sea de safety salvo que sea el universo mismo.
@@ -174,7 +177,7 @@ Para $a^*b^+a^\omega$ solo hace falta agregar las trazas $a^\omega$ y $b^\omega$
 
 Para $(a+b)^*(a^\omega+b^\omega)$, del mismo modo que antes, se debe extender al universo $\Sigma^\omega$ al ser una propiedad de liveness.
 
-Para $(ab)^*a^\omega$, debemos extenderlo con la traza $(ab)^\omega$ de modo que los prefijos malos sean $(ab)^*b$ y $(ab)^*a^+b$.
+Para $(ab)^*a^\omega$, debemos extenderlo con la traza $(ab)^\omega$ de modo que los prefijos malos sean $(ab)^*b$ y $(ab)^*a^+ab$.
 
 \section*{Ejercicio 10}
 Para $a^*b^\omega$, tenemos que $P = (a^*b^\omega)+a^\omega$ es de safety por el ejercicio anterior y que $Q = (a^*b^\omega) + (a + b)^*b^\omega$ es de liveness porque para todo prefijo, si lo concatenamos con $b^\omega$ cumple $Q$.
