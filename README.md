@@ -29,6 +29,7 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 | Propiedades de los sistemas reactivos y su análisis | Lenguajes $\omega$-regulares <br /> Safety y liveness <br /> Vista en FSP                                                        | [PDF](./theory/slides/04-properties_of_reactive_systems_and_their_analysis.pdf) | Magee & Kramer (6, 7) <br /> Alpern & Schneider (21:182-185) <br /> Baier & Katoen (3, 4)         |
 | Lógica temporal lineal                              | LTL <br /> Safety, liveness y fairness                                                                                           | [PDF](./theory/slides/05-linear_temporal_logic.pdf)                             | Baier & Katoen (4, 5)                                                                             |
 | Model Checking                                      | Autómatas de Büchi <br /> SPIN y SMV                                                                                             | [PDF](./theory/slides/06-model_checking.pdf)                                    | Müller-Olm (1, 2, 4.2, 4.4)                                                                       |
+| Especificación de sistemas                          | Especificación <br /> SAT solving (idea) <br /> Álgebra de relaciones                                                            | [PDF](./theory/slides/07-system_specification.pdf)                              |                                                                                                   |
 
 </div>
 
