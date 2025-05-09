@@ -1,0 +1,651 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{stmaryrd}
+\usepackage{enumitem}
+\usepackage[dvipsnames]{xcolor}
+
+\geometry{
+  a4paper,
+  total = {170mm, 257mm},
+  left = 20mm,
+  top = 20mm,
+}
+\graphicspath{ {./images/} }
+
+\newtheorem*{axiom}{Axioma}
+\renewcommand{\proofname}{Prueba}
+
+\newcommand{\U}{\mathcal{U}}
+
+\newcommand{\none}{\textbf{none}}
+\newcommand{\iden}{\textbf{iden}}
+\newcommand{\univ}{\textbf{univ}}
+\newcommand{\conv}[1]{\ \tilde{}#1}
+
+\title{Trabajo práctico N° 5}
+\author{Emanuel Nicolás Herrador}
+\date{Mayo 2025}
+
+\makeatletter
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 1em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip 1em%
+    {\large \@date}%
+  \end{center}%
+  \par
+  \vskip 1em}
+\makeatother
+
+\begin{document}
+
+\maketitle
+
+\noindent\begin{tabular}{@{}ll}
+	Estudiante & \theauthor \\
+\end{tabular}
+
+\section*{Ejercicio 1}
+Se pretende demostrar que $\vDash$ es una relación binaria monótona.
+Es decir, se quiere demostrar que $\forall \Gamma, \Gamma'$ conjuntos de fórmulas, $(\Gamma \vDash \varphi) \Rightarrow (\Gamma \cup \Gamma' \vDash \varphi)$.
+
+Sean $\Gamma, \Gamma'$ conjuntos de fórmulas arbitrarios y $\varphi$ una fórmula, supongamos que $\Gamma \vDash \varphi$.
+Como sabemos que $\Gamma \vDash \varphi$, entonces $\forall \psi,\ \Gamma \vDash \neg\psi \lor \varphi$, lo que es equivalente a $\Gamma \vDash \psi \Rightarrow \varphi$.
+En base a esto, podemos considerar $\forall \psi \in \Gamma'$ que $\Gamma \vDash \psi \Rightarrow \varphi$, por lo que por el lema de deducción $\Gamma \cup \{\psi\} \vDash \varphi$.
+Si esto lo hacemos iterativamente para cada fórmula en $\Gamma'$, entonces llegamos a que $\Gamma \cup \Gamma' \vDash \varphi$.
+Gracias a esto, entonces, se demuestra. $\qed$
+
+\section*{Ejercicio 2}
+Se pretende analizar la afirmación ``si una fórmula es satisfactible, su negación necesariamente no lo es''.
+Esto claramente es falso y lo voy a mostrar por contraejemplo.
+
+Sea $\varphi = p$ una proposición atómica, entonces $\varphi$ es satisfactible si $\exists I:\text{PA}\to\{\text{true},\ \text{false}\}$ interpretación tal que $I \vDash \varphi$.
+Consideremos $I:\text{PA}\to\{\text{true},\ \text{false}\}$ tal que $I(p) = \text{true}$.
+Entonces, claramente $I \vDash \varphi$ por lo que $\varphi$ es satisfactible.
+
+Ahora, consideremos $I':\text{PA}\to\{\text{true},\ \text{false}\}$ tal que $I(p) = \text{false}$.
+Entonces, claramente $I \vDash \neg\varphi$ porque $I \not\vDash \varphi$.
+Luego, por definición $\neg\varphi$ es también satisfactible.
+
+Con ello, se muestra el contraejemplo y se refuta la afirmación.
+
+\section*{Ejercicio 3}
+En este ejercicio se pretende dar la semántica formal de los operadores del álgebra de relaciones.
+Para ello, veamos uno por uno.
+Sea $\U$ el universo donde se aplican las relaciones:
+\begin{itemize}
+  \item $\none = \{\} = \emptyset$
+  \item $\iden = \{(x, x) : x \in \U\}$
+  \item $\univ = \{(x, y) : x, y \in \U \} = \U \times \U$
+  \item $\bar{R} = \{(x, y) : (x, y) \notin R\}$
+  \item $\conv{R} = \{(x, y) : (y, x) \in R\}$
+  \item $R^+ = \{(x, z) : (x, z) \in R \lor (\exists y_1, \dots, y_n \in \U : (x, y_1),\ (y_n, z) \in R \land (\forall 1 \leq i < n : (y_i, y_{i+1}) \in R))\}$
+  \item $R^* = \{(x, z) : x = z \lor (x, z) \in R \lor (\exists y_1, \dots, y_n \in \U : (x, y_1),\ (y_n, z) \in R \land (\forall 1 \leq i < n : (y_i, y_{i+1}) \in R))\}$
+  \item $R+S = \{(x, y) : (x, y) \in R \lor (x, y) \in S\}$
+  \item $R \& S = \{(x, y) : (x, y) \in R \land (x, y) \in S\}$
+  \item $R \cdot S = \{(x, z) : \exists y \in \U : (x, y) \in R \land (y, z) \in S\}$
+  \item $R-S = \{(x, y) : (x, y) \in R \land (x, y) \notin S\}$
+\end{itemize}
+
+\section*{Ejercicio 4}
+En este ejercicio, en base a las semánticas definidas en el ejercicio anterior, se pretende demostrar los axiomas dados en la filmina del teórico.
+Para ello, veremos cada axioma por separado para mayor claridad.
+
+\begin{axiom}
+  $R + \none = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R + \none &= R + \emptyset \\ 
+                &= \{(x, y) : (x, y) \in R \lor (x, y) \in \emptyset\} \\ 
+                &= \{(x, y) : (x, y) \in R\} \\ 
+                &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom} 
+  $R \& \univ = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R \& \univ &= R \& (\U \times \U) \\ 
+                 &= \{(x, y) : (x, y) \in R \land (x, y) \in \U \times \U\} \\ 
+                 &= \{(x, y) : (x, y) \in R\} \\ 
+                 &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R+S = S+R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R+S &= \{(x, y) : (x, y) \in R \lor (x, y) \in S\} \\ 
+          &= \{(x, y) : (x, y) \in S \lor (x, y) \in R\} \\ 
+          &= S+R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R \& S = S \& R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R \& S &= \{(x, y) : (x, y) \in R \land (x, y) \in S\} \\ 
+             &= \{(x, y) : (x, y) \in S \land (x, y) \in R\} \\ 
+             &= S \& R 
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R + R = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R + R &= \{(x, y) : (x, y) \in R \lor (x, y) \in R\} \\ 
+            &= \{(x, y) : (x, y) \in R\} \\ 
+            &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R \& R = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R \& R &= \{(x, y) : (x, y) \in R \land (x, y) \in R\} \\ 
+             &= \{(x, y) : (x, y) \in R\} \\ 
+             &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\overline{\univ} = \none$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \overline{\univ} &= \{(x, y) : (x, y) \notin \U \times \U\} \\ 
+                       &= \emptyset \\ 
+                       &= \none
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R + \bar{R} = \univ$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R + \bar{R} &= R + \{(x, y) : (x, y) \notin R\} \\ 
+                  &= \{(x, y) : (x, y) \in R \lor (x, y) \notin R\} \\ 
+                  &= \{(x, y) \in \U \times \U\} \\ 
+                  &= \U \times \U \\ 
+                  &= \univ
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R \& \bar{R} = \none$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R \& \bar{R} &= R \& \{(x, y) : (x, y) \notin R\} \\ 
+                   &= \{(x, y) : (x, y) \in R \land (x, y) \notin R\} \\ 
+                   &= \emptyset \\ 
+                   &= \none
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\bar{\bar{R}} = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \bar{\bar{R}} &= \overline{\{(x, y) : (x, y) \notin R\}} \\ 
+                    &= \{(x, y) : (x, y) \in R\} \\ 
+                    &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $(R+S)\& T = (R \& T) + (S \& T)$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      (R+S) \& T &= \{(x, y) : (x, y) \in R \lor (x, y) \in S\} \& T \\ 
+                 &= \{(x, y) : ((x, y) \in R \lor (x, y) \in S) \land (x, y) \in T\} \\ 
+                 &= \{(x, y) : ((x, y) \in R \land (x, y) \in T) \lor ((x, y) \in S \land (x, y) \in T)\} \\ 
+                 &= \{(x, y) : (x, y) \in R \land (x, y) \in T\} + \{(x, y) : (x, y) \in S \land (x, y) \in T\} \\ 
+                 &= (R \& T) + (S \& T)
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $(R \& S) + T = (R+T) \& (S+T)$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      (R \& S) + T &= \{(x, y) : (x, y) \in R \land (x, y) \in S\} + T \\ 
+                   &= \{(x, y) : ((x, y) \in R \land (x, y) \in S) \lor (x, y) \in T\} \\ 
+                   &= \{(x, y) : ((x, y) \in R \lor (x, y) \in T) \land ((x, y) \in S \lor (x, y) \in T)\} \\ 
+                   &= \{(x, y) : (x, y) \in R \lor (x, y) \in T\} \& \{(x, y) : (x, y) \in S \lor (x, y) \in T\} \\ 
+                   &= (R+S) \& (S+T)
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R \cdot \iden = \iden \cdot R = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R \cdot \iden &= R \cdot \{(x, x) : x \in \U\} \\ 
+                    &= \{(x, z) : \exists y \in \U : (x, y) \in R \land (y, z) \in \{(k, k) : k \in \U\}\} \\ 
+                    &= \{(x, z) : \exists y \in \U : (x, y) \in R \land y = z\} \\ 
+                    &= \{(x, z) : (x, z) \in R\} \\ 
+                    &= R \\ 
+                    \\ 
+      \iden \cdot &= \{(x, x) : x \in \U\} \cdot R \\ 
+                    &= \{(x, z) : \exists y \in \U : (x, y) \in \{(k, k) : k \in \U\} \land (z, y) \in R\} \\ 
+                    &= \{(x, z) : \exists y \in \U : x = y \land (z, y) \in R\} \\ 
+                    &= \{(x, z) : (x, y) \in R\} \\ 
+                    &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $(R \cdot S) \cdot T = R \cdot (S \cdot T)$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      (R \cdot S) \cdot T &= \{(x, y) : \exists k_0 \in \U : (x, k_0) \in R \land (k_0, y) \in S\} \cdot T \\ 
+                          &= \{(x, y) : \exists k_1 \in \U : (\exists k_0 \in \U : (x, k_0) \in R \land (k_0, k_1) \in S) \land (k_1, y) \in T\} \\ 
+                          &= \{(x, y) : \exists k_0, k_1 \in \U : (x, k_0) \in R \land (k_0, k_1) \in S \land (k_1, y) \in T\} \\ 
+                          &= \{(x, y) : \exists k_0 \in \U : (x, k_0) \in R \land (\exists k_1 \in \U: (k_0, k_1) \in S \land (k_1, y) \in T)\} \\ 
+                          &= R \cdot \{(x, y) : \exists k_1 \in \U : (x, k_1) \in S \land (k_1, y) \in T\} \\ 
+                          &= R \cdot (S \cdot T)
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $(R+S) \cdot T = (R \cdot T) + (S \cdot T)$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      (R+S) \cdot T &= \{(x, y) : (x, y) \in R \lor (x, y) \in S\} \cdot T \\ 
+                    &= \{(x, y) : \exists k \in \U : ((x, k) \in R \lor (x, k) \in S) \land (k, y) \in T\} \\ 
+                    &= \{(x, y) : \exists k \in \U : ((x, k) \in R \land (k, y) \in T) \lor ((x, k) \in S \land (k, y) \in T)\} \\ 
+                    &= \{(x, y) : \exists k \in \U : (x, k) \in R \land (k, y) \in T\} + \{(x, y) : \exists k \in \U : (x, k) \in S \land (k, y) \in T\} \\ 
+                    &= (R \cdot T) + (S \cdot T)
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\conv{(\conv{R})} = R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \conv{(\conv{R})} &= \{(x, y) : (y, x) \in \conv{R}\} \\ 
+                        &= \{(x, y) : (y, x) \in \{(a, b) : (b, a) \in R\}\} \\ 
+                        &= \{(x, y) : (x, y) \in R\} \\ 
+                        &= R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\conv{(R \cdot S)} = \conv{S} \cdot \conv{R}$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \conv{(R \cdot S)} &= \{(x, y) : (y, x) \in R \cdot S\} \\ 
+                         &= \{(x, y) : (y, x) \in \{(a, b) : \exists c \in \U : (a, c) \in R \land (c, b) \in S\}\} \\ 
+                         &= \{(x, y) : \exists k \in \U : (y, k) \in R \land (k, x) \in S\} \\ 
+                         &= \{(x, y) : \exists k \in \U : (x, k) \in \conv{S} \land (k, y) \in \conv{R}\} \\ 
+                         &= \conv{S} \cdot \conv{R}
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\conv{(R+S)} = \conv{R}+\conv{S}$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \conv{(R + S)} &= \{(x, y) : (y, x) \in R + S\} \\ 
+                     &= \{(x, y) : (y, x) \in R \lor (y, x) \in S\} \\ 
+                     &= \{(x, y) : (x, y) \in \conv{R} \lor (x, y) \in \conv{S}\} \\ 
+                     &= \conv{R} + \conv{S}
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $\overline{\conv{R}} = \conv{(\bar{R})}$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      \overline{\conv{R}} &= \{(x, y) : (x, y) \notin \conv{R}\} \\ 
+                          &= \{(x, y) : (x, y) \notin \{(a, b) : (b, a) \in R\}\} \\ 
+                          &= \{(x, y) : (y, x) \notin R\} \\ 
+                          &= \{(x, y) : (y, x) \in \overline{R}\} \\ 
+                          &= \conv{(\overline{R})}
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R^+ = R \cdot R^+ + R$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R^+ &= \{(x, y) : (x, y) \in R \lor (\exists k_1, \dots k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R))\} \\ 
+          &= R + \{(x, y) : \exists k_1, \dots k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R)\} \\ 
+          &= \{(x, y) : \exists k_1 \in \U : (x, k_1) \in R \land \\
+          & \qquad\qquad ((k_1, y) \in R \lor \exists k_2, \dots, k_n \in \U : (k_1, k_2), (k_n, y) \in R \land (\forall 2 \leq i < n : (k_i, k_{i+1}) \in R))\} + R \\
+          &= R \cdot \{(x, y) : (x, y) \in R \lor \exists k_1, \dots, k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R)\} + R \\ 
+          &= R \cdot R^+ + R
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\begin{axiom}
+  $R^* = (R \cdot R^*) + \iden$
+\end{axiom}
+\begin{proof}
+  \begin{equation*}
+    \begin{aligned}
+      R^* &= \{(x, y) : x = y \lor (x, y) \in R \lor (\exists k_1, \dots, k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R))\} \\ 
+          &= \{(x, y) : x = y\} + \\ 
+          & \qquad\qquad \{(x, y) : (x, y) \in R \lor (\exists k_1, \dots, k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R))\} \\ 
+          &= \iden + \{(x, y) : \exists k_1 \in \U : (x, k_1) \in R \land \\ 
+          & \qquad\qquad (k_1 = y \lor (k_1, y) \in R \lor \exists k_2, \dots, k_n \in \U : (k_1, k_2), (k_n, y) \in R \land (\forall 2 \leq i < n : (k_i, k_{i+1}) \in R))\} \\ 
+          &= R \cdot \{(x, y) : x = y \lor (x, y) \in R \lor \\ 
+          & \qquad\qquad (\exists k_1, \dots, k_n \in \U : (x, k_1), (k_n, y) \in R \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in R))\} + \iden \\ 
+          &= (R \cdot R^*) + \iden
+    \end{aligned}
+  \end{equation*}
+\end{proof}
+
+\section*{Ejercicio 5}
+Ahora, queremos caracterizar cuándo una relación $R$ es un orden parcial, un orden total y un orden estricto.
+Veamos cada una en un item separado.
+
+\subsection*{Item A}
+Respecto al orden parcial, sabemos que $R$ es un orden parcial si es reflexiva, antisimétrica y transitiva.
+Es decir, si cumple las siguientes condiciones:
+\begin{itemize}
+  \item $\forall x \in \U : (x, x) \in R$
+  \item $\forall x, y \in \U : (x, y) \in R \land (y, x) \in R \Rightarrow x = y$
+  \item $\forall x, y, z \in \U : (x, y) \in R \land (y, z) \in R \Rightarrow (x, z) \in R$
+\end{itemize}
+
+Veamos cada una de ellas por separado comenzando con la reflexividad:
+\begin{equation*}
+  \begin{aligned}
+    \forall x \in \U : (x, x) \in R &\equiv \forall (x, x) \in \iden : (x, x) \in R \\ 
+                                    &\equiv \forall k \in \iden : k \in R \\ 
+                                    &\equiv \iden \subseteq R
+  \end{aligned}
+\end{equation*}
+
+Respecto a la antisimetría, tenemos:
+\begin{equation*}
+  \begin{aligned}
+    \forall x, y \in \U : (x, y) \in R \land (y, x) \in R \Rightarrow x = y &\equiv \forall x, y \in \U : (x, y) \in R \land (x, y) \in \conv{R} \Rightarrow (x, y) \in \iden \\ 
+                                                                            &\equiv \forall x, y \in \U : (x, y) \in R \& \conv{R} \Rightarrow (x, y) \in \iden \\ 
+                                                                            &\equiv R \& \conv{R} \subseteq \iden
+  \end{aligned}
+\end{equation*}
+
+Y, para transitividad:
+\begin{equation*}
+  \begin{aligned}
+    \forall x, y, z \in \U : (x, y) \in R \land (y, z) \in R \Rightarrow (x, z) \in R &\equiv \forall x, z \in \U : (x, z) \in R \cdot R \Rightarrow (x, z) \in R \\ 
+                                                                                      &\equiv R \cdot R \subseteq R
+  \end{aligned}
+\end{equation*}
+
+Por ello, dado $R_R = \iden \subseteq R$, $R_A = R \& \conv{R} \subseteq \iden$ y $R_T = R \cdot R \subseteq R$, entonces el conjunto de ecuaciones que especifican que $R$ es un orden parcial es $R_\text{poset} = \{R_R, R_A, R_T\}$.
+
+\subsection*{Item B}
+Ahora, queremos ver el conjunto de ecuaciones que establecen cuándo $R$ es un orden total.
+Recordemos que un orden total es un orden parcial tal que $\forall x, y \in \U : (x, y) \in R \lor (y, x) \in R$.
+Para ello, veamos que:
+\begin{equation*}
+  \begin{aligned}
+    \forall x, y \in \U : (x, y) \in R \lor (y, x) \in R &\equiv \forall (x, y) \in \U \times \U : (x, y) \in R \lor (x, y) \in \conv{R} \\ 
+                                                         &\equiv \forall (x, y) \in \U \times \U : (x, y) \in R + \conv{R} \\ 
+                                                         &\equiv \U \times \U = R + \conv{R} \\ 
+                                                         &\equiv \univ = R + \conv{R}
+  \end{aligned}
+\end{equation*}
+
+Por esto, sea $R_C = (\univ = R + \conv{R})$, entonces el conjunto que establece que $R$ es un orden total es $R_\text{ord. total} = R_\text{poset} \cup R_C$
+
+\subsection*{Item C}
+Como último punto, ahora, queremos ver cuál sería la caracterización de las condiciones para un orden estricto en el álgebra relacional.
+Recordemos que $R$ es un orden estricto si es asimétrica y transitiva.
+$R$ es asimétrica si $\forall a, b \in \U : (a, b) \in R \Rightarrow (b, a) \notin R$.
+Veamos entonces que esto equivale a que:
+\begin{equation*}
+  \begin{aligned}
+    \forall a, b \in \U : (a, b) \in R \Rightarrow (b, a) \notin R &\equiv \forall a, b \in \U : (a, b) \in R \Rightarrow (a, b) \in \overline{\conv{R}} \\ 
+                                                                   &\equiv R \subseteq \overline{\conv{R}}
+  \end{aligned}
+\end{equation*}
+
+Por ello, tenemos que sea $R_{A2} = R \subseteq \overline{\conv{R}}$, entonces $R_\text{ord. estricto} = \{R_{A2}, R_T\}$.
+
+\section*{Ejercicio 6}
+Ahora queremos dar conjuntos de ecuaciones respecto a una relación en un sistema de transiciones etiquetadas.
+Para ello, consideraremos $Act$ al conjunto de acciones o eventos y $T_a$ la relación de transición etiquetada con $a \in Act$ en un sistema de transiciones etiquetadas.
+Veamos cada punto por separado.
+
+\subsection*{Item A}
+Se pretende caracterizar la simulación.
+Recordemos que $R$ es una simulación si cumple que:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall (s, t) \in R : \forall s' \in \U,\ a \in Act : ((s, s') \in T_a \Rightarrow \exists t' \in \U : (t, t') \in T_a \land (s', t') \in R) \equiv \\ 
+    &\equiv \forall s, t, s' \in \U,\ a \in Act : ((t, s) \in \conv{R} \land (s, s') \in T_a \Rightarrow \exists t' \in \U : (t, t') \in T_a \land (t', s') \in \conv{R}) \\ 
+    &\equiv \forall s, t, s' \in \U,\ a \in Act : (t, s') \in \conv{R} \cdot T_a \Rightarrow (t, s') \in T_a \cdot \conv{R} \\ 
+    &\equiv \forall a \in Act : \conv{R} \cdot T_a \subseteq T_a \cdot \conv{R}
+  \end{aligned}
+\end{equation*}
+
+Luego, entonces, sea $S_a = \conv{R} \cdot T_a \subseteq T_a \cdot \conv{R}$ para $a \in Act$, tenemos que el conjunto de ecuaciones que especifica cuándo $R$ es una simulación está dado por $S = \{S_a : a \in Act\}$.
+
+\subsection*{Item B}
+Ahora, se pretende caracterizar la bisimulación.
+Para ello, recordemos que $R$ es una bisimulación si tanto $R$ como $R^{-1}$ son simulaciones.
+Como $R^{-1}$ es la conversa $\conv{R}$, entonces podemos ver que la condición de bisimulación para una transición $a$ en específico queda igual a:
+\begin{equation*}
+  \begin{aligned}
+    \conv{R} \cdot T_a &\subseteq T_a \cdot \conv{R} &\text{porque }R\text{ es sim.} \\ 
+    \\ 
+    \conv{(R^{-1})} \cdot T_a &\subseteq T_a \cdot \conv{(R^{-1})} &\text{porque } R^{-1}\text{ es sim.} \\ 
+    \conv{(\conv{R})} \cdot T_a &\subseteq T_a \cdot \conv{(\conv{R})} \\ 
+    R \cdot T_a &\subseteq T_a \cdot R 
+  \end{aligned}
+\end{equation*}
+
+Por esto, sea $S^{-1}_a = R \cdot T_a \subseteq T_a \cdot R$ para $a \in Act$, tenemos que el conjunto de ecuaciones que especifica que $R$ es bisimulación está dado por $BF = \{S_a : a \in Act\} \cup \{S^{-1}_a : a \in Act\}$.
+
+\subsection*{Item C}
+Ahora, se pretende caracterizar la bisimulación débil.
+Para esto, recordemos primero que una relación $R$ es una bisimulación débil si es una bisimulación en donde las transiciones $\tau$ son ``invisibles''.
+Primero, para mayor facilidad, veamos cuándo $R$ es una simulación débil.
+Tenemos que, en este caso:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall (s, t) \in R : \forall s' \in \U,\ a \in Act \neq \tau : ((s, s') \in T_a \Rightarrow \exists t' \in \U : (t, t') \in T_\tau^* \cdot T_a \cdot T_\tau^* \land (s', t') \in R) \\ 
+    &\equiv \forall s, t \in \U,\ a \neq \tau \in Act : ((t, s') \in \conv{R} \cdot T_a \Rightarrow (t, s') \in T_\tau^* \cdot T_a \cdot T_\tau^* \cdot \conv{R}) \\
+    &\equiv \forall a \neq \tau \in Act : \conv{R} \cdot T_a \subseteq T_\tau^* \cdot T_a \cdot T_\tau^* \cdot \conv{R}
+  \end{aligned}
+\end{equation*}
+
+Notar que al usar la clausura reflexo-transitiva, entonces se considera hacer $0, 1$ o más acciones silenciosas antes y después de hacer la de $a$.
+Esta condición para este tipo de simulación débil la llamaremos $SD_a = \{\conv{R} \cdot T_a \subseteq T_\tau^* \cdot T_a \cdot T_\tau^* \cdot \conv{R} : a \in Act \smallsetminus \{\tau\}\}$.
+
+Ahora, si consideramos la transición $\tau$, se puede simular haciendo $0, 1$ o más acciones silenciosas en total.
+Por ello:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall (s, t) \in R : \forall s' \in \U : ((s, s') \in T_\tau \Rightarrow \exists t' \in \U : (t, t') \in T_\tau^* \land (s', t') \in R) \\ 
+    &\equiv \conv{R} \cdot T_\tau \subseteq T_\tau^* \cdot \conv{R}
+  \end{aligned}
+\end{equation*}
+
+Luego, consideramos el otro caso como $SD_\tau = \{\conv{R} \cdot T_\tau \subseteq T_\tau^* \cdot \conv{R}\}$.
+
+Finalmente, como la bisimulación débil requiere que $R$ y $R^{-1}$ sean simulaciones débiles, del mismo modo que en el ejercicio anterior llegamos a:
+\begin{equation*}
+  \begin{aligned}
+    SD_a^{-1} &= \{R \cdot T_a \subseteq T_\tau^* \cdot T_a \cdot T_\tau^* \cdot R : a \in Act \smallsetminus \{\tau\}\} \\ 
+    SD_\tau^{-1} &= \{R \cdot T_\tau \subseteq T_\tau^* \cdot R\}
+  \end{aligned}
+\end{equation*}
+
+Luego, el conjunto de ecuaciones para establecer que $R$ es una bisimulación débil es:
+\begin{equation*}
+  BD = SD_a \cup SD_\tau \cup SD^{-1}_a \cup SD^{-1}_\tau
+\end{equation*}
+
+\section*{Ejercicio 7}
+Como último ejercicio, se pretende caracterizar el conjunto de ecuaciones necesarias para dar propiedades acerca de un grafo.
+Para ello, consideraremos un grafo dirigido con conjunto de nodos $N$ y $E \subseteq N \times N$ su relación de aristas.
+Con esto en mente, veamos cada propiedad por separado.
+
+\subsection*{Item A}
+Se pretende caracterizar que el grafo es acíclico.
+Para ello, veamos que:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall x \in N : (x, x) \notin E \land \nexists k_1, \dots, k_n \in N : (x, k_1), (k_n, x) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E) \\ 
+    &\equiv \forall x \in N : \neg((x, x) \in E \lor \exists k_1, \dots, k_n \in N : (x, k_1), (k_n, x) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E)) \\ 
+    &\equiv \forall x \in N : \neg((x, x) \in E^+) \\ 
+    &\equiv \forall x \in N : (x, x) \in \overline{E^+} \\ 
+    &\equiv \forall k \in \iden : k \in \overline{E^+} \\ 
+    &\equiv \iden \subseteq \overline{E^+}
+  \end{aligned}
+\end{equation*}
+
+Luego, entonces, para ver si el grafo es acíclico tenemos $G_\text{acíclico} = \{\iden \subseteq \overline{E^+}\}$.
+
+\subsection*{Item B}
+Se pretende caracterizar que el grafo es no dirigido.
+Para ello, veamos que:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall x, y \in N : (x, y) \in E \iff (y, x) \in E \\ 
+    &\equiv \forall (x, y) \in N \times N : (x, y) \in E \iff (x, y) \in \conv{E} \\ 
+    &\equiv E = \conv{E}
+  \end{aligned}
+\end{equation*}
+
+Luego, $G_\text{no dirigido} = \{E = \conv{E}\}$.
+
+\subsection*{Item C}
+Se pretende caracterizar que el grafo es fuertemente conexo.
+Para ello, veamos que:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall x, y \in N : x = y \lor (x, y) \in E \lor (\exists k_1, \dots, k_n \in N : (x, k_1), (k_n, y) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E)) \\ 
+    &\equiv \forall x, y \in N : (x, y) \in E^* \\ 
+    &\equiv \forall (x, y) \in N \times N : (x, y) \in E^* \\ 
+    &\equiv \univ \subseteq E^* \\ 
+    &\equiv \univ = E^*
+  \end{aligned}
+\end{equation*}
+
+Luego, $G_\text{fuertemente conexo} = \{\univ = E^*\}$
+
+\subsection*{Item D}
+Se pretende caracterizar que el grafo es conexo.
+Para ello, veamos que:
+\begin{equation*}
+  \begin{aligned}
+    &\qquad \forall x, y \in N : x = y \lor \\ 
+    & \qquad\qquad ((x, y) \in E \lor (\exists k_1, \dots, k_n \in N : (x, k_1), (k_n, y) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E))) \lor \\ 
+    & \qquad\qquad ((y, x) \in E \lor (\exists k_1, \dots, k_n \in N : (y, k_1), (k_n, x) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E))) \\ 
+    &\equiv \forall (x, y) \in N \times N : \\ 
+    &\qquad\qquad (x = y \lor (x, y) \in E \lor (\exists k_1, \dots, k_n \in N : (x, k_1), (k_n, y) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E))) \lor \\ 
+    &\qquad\qquad (y = x \lor (y, x) \in E \lor (\exists k_1, \dots, k_n \in N : (y, k_1), (k_n, x) \in E \land (\forall 1 \leq i < n : (k_i, k_{i+1}) \in E))) \\
+    &\equiv \forall (x, y) \in \univ : (x, y) \in E^* \lor (y, x) \in E^* \\ 
+    &\equiv \forall (x, y) \in \univ : (x, y) \in E^* \lor (x, y) \in \conv{(E^*)} \\ 
+    &\equiv \forall (x, y) \in \univ : (x, y) \in E^* + \conv{(E^*)} \\ 
+    &\equiv \univ \subseteq E^* + \conv{(E^*)} \\ 
+    &\equiv \univ = E^* + \conv{(E^*)}
+  \end{aligned}
+\end{equation*}
+
+Luego, $G_\text{conexo} = \{\univ = E^* + \conv{(E^*)}\}$
+
+\subsection*{Item E}
+Finalmente, y como último item, queremos caracterizar al grafo como un árbol.
+En este caso, dado que consideramos un grafo dirigido, supongo que se pretende caracterizar cuándo este es un árbol dirigido.
+Por esto, no va a ser suficiente garantizar que sea acíclico y conexo porque eso lo cumple todo DAG.
+
+Para asegurar que un DAG sea un árbol, se debe garantizar que este tenga una raíz, i.e. un solo vértice sin aristas de entrada.
+Es decir:
+\begin{equation*}
+  \begin{aligned}
+    \exists! x \in N : \forall y \in N : (y, x) \notin E
+  \end{aligned}
+\end{equation*}
+
+\begin{quotation}
+  \textcolor{red}{\textbf{Nota:}} Consultarle al profesor cómo expresar esta propiedad de la raíz para árboles dirigidos en el Álgebra Relacional.
+  Notar que es necesario para distinguir el árbol dirigido de un DAG.
+
+  No se consideró la definición de árbol no dirigido debido a que el grafo que consideramos es dirigido y, por ende, el hecho de que sea no dirigido ya implica la existencia de ciclos por lo que no sería acíclico.
+  O, ¿debo considerar esto pero decir que tiene que ser acíclico respecto a ciclos de tamaño 1 y 3 o más? O sea, solo permitiendo los de tamaño 2 que harían no dirigido el grafo.
+\end{quotation}
+
+\end{document}
