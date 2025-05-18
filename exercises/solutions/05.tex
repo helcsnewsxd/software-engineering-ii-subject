@@ -636,16 +636,40 @@ Para asegurar que un DAG sea un árbol, se debe garantizar que este tenga una ra
 Es decir:
 \begin{equation*}
   \begin{aligned}
-    \exists! x \in N : \forall y \in N : (y, x) \notin E
+    &\exists! x \in N : \forall y \in N : (y, x) \notin E \\ 
+    &(\exists x \in N : \forall y \ in N : (y, x) \notin E) \land (\forall x \in N : \forall y \in N : (\forall z \in N : (z, x) \notin E) \land (\forall z \in N : (z, y) \notin E) \Rightarrow x = y)
+  \end{aligned}
+\end{equation*}
+
+Luego, veamos cada predicado por separado para mayor facilidad:
+\begin{equation*}
+  \begin{aligned}
+    &\exists x \in N : \forall y \in N : (y, x) \notin E \\ 
+    &\neg\neg(\exists x \in N : \forall y \in N : (y, x) \notin E) \\ 
+    &\neg(\forall x \in N : \exists y \in N : (y, x) \in E) \\ 
+    &\neg(\forall x \in N : \exists y \in N : (x, y) \in \conv{E} \land (y, x) \in E) \\ 
+    &\neg(\forall x \in N : (x, x) \in \conv{E} \cdot E) \\ 
+    &\neg(\iden \subseteq \conv{E} \cdot E) \\ 
+    &\iden \not\subseteq \conv{E} \cdot E
+  \end{aligned}
+\end{equation*}
+
+Y, ahora respecto al segundo predicado:
+\begin{equation*}
+  \begin{aligned}
+    &\forall x \in N : \forall y \in N : (\forall z \in N : (z, x) \notin E) \land (\forall z \in N : (z, y) \notin E) \Rightarrow x = y \\ 
+    &\forall x \in N : \forall y \in N : \neg((\forall z \in N : (z, x) \notin E) \land (\forall z \in N : (z, y) \notin E)) \lor x = y \\ 
+    &\forall x \in N : \forall y \in N : (\exists z \in N : (z, x) \in E) \lor (\exists z \in N : (z, y) \in E) \lor x = y \\ 
+    &\forall x \in N : \forall y \in N : (\exists z \in N : (x, z) \in \conv{E} \land (z, x) \in E) \lor (\exists z \in N : (y, z) \in \conv{E} \land (z, y) \in E) \lor (x, y) \in \iden \\ 
+    &\forall x \in N : \forall y \in N : (x, x) \in \conv{E} \cdot E \lor (y, y) \in \conv{E} \cdot E \lor (x, y) \in \iden \\ 
+    &\neg\neg(\forall x \in N : \forall y \in N : (x, x) \in \conv{E} \cdot E \lor (y, y) \in \conv{E} \cdot E \lor (x, y) \in \iden) \\ 
+    &\neg(\exists x \in N : \exists y \in N : (x, x) \notin \conv{E} \cdot E \land (y, y) \notin \conv{E} \cdot E \land (x, y) \notin \iden) \\ 
+    &\neg(\exists x \in N : \exists y \in N : (x, x) \in \overline{\conv{E} \cdot E} \land (y, y) \in \overline{\conv{E} \cdot E} \land (x, y) \in \overline{\iden}) \\ 
   \end{aligned}
 \end{equation*}
 
 \begin{quotation}
-  \textcolor{red}{\textbf{Nota:}} Consultarle al profesor cómo expresar esta propiedad de la raíz para árboles dirigidos en el Álgebra Relacional.
-  Notar que es necesario para distinguir el árbol dirigido de un DAG.
-
-  No se consideró la definición de árbol no dirigido debido a que el grafo que consideramos es dirigido y, por ende, el hecho de que sea no dirigido ya implica la existencia de ciclos por lo que no sería acíclico.
-  O, ¿debo considerar esto pero decir que tiene que ser acíclico respecto a ciclos de tamaño 1 y 3 o más? O sea, solo permitiendo los de tamaño 2 que harían no dirigido el grafo.
+  \textcolor{red}{\textbf{Nota:}} ¿Cómo debería continuar para hacer la reducción de forma correcta?
 \end{quotation}
 
 \end{document}
