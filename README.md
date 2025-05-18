@@ -30,6 +30,7 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 | Lógica temporal lineal                              | LTL <br /> Safety, liveness y fairness                                                                                           | [PDF](./theory/slides/05-linear_temporal_logic.pdf)                             | Baier & Katoen (4, 5)                                                                             |
 | Model Checking                                      | Autómatas de Büchi <br /> SPIN y SMV                                                                                             | [PDF](./theory/slides/06-model_checking.pdf)                                    | Müller-Olm (1, 2, 4.2, 4.4)                                                                       |
 | Especificación de sistemas                          | Especificación <br /> SAT solving (idea) <br /> Álgebra de relaciones                                                            | [PDF](./theory/slides/07-system_specification.pdf)                              |                                                                                                   |
+| El lenguaje de especificación Alloy | Signaturas <br /> Predicados <br /> Hechos, aserciones y predicados <br /> Cambios de estado y trazas <br /> Elección de cotas y cuantificadores universales no acotados | [PDF](./theory/slides/08-alloy.pdf) | D. Jackson 2006 (1, 2, 3, 4) <br /> [Ejemplos](./theory/examples/alloy/) |
 
 </div>
 
