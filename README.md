@@ -1,3 +1,8 @@
+> [!note]
+> This repository contains theoretical notes, practical exercises, and a final project developed for the Software Engineering II course of the Computer Science degree at FAMAF – Universidad Nacional de Córdoba.
+>
+> All materials are in Spanish, as they were created for academic use and course submission.
+
 # Ingeniería del Software II
 
 El presente repositorio contiene todo el material correspondiente a la cursada de la materia de _Ingeniería del Software II_ de 5to año de la Licenciatura en Ciencias de la Computación de FAMAF durante el año 2025.
