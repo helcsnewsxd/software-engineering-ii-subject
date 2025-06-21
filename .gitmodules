@@ -1,0 +1,3 @@
+[submodule "cbmc-analysis-report"]
+	path = cbmc-analysis-report
+	url = https://github.com/helcsnewsxd/cbmc-analysis-report

@@ -58,4 +58,6 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 
 ### Proyecto
 
-Toda la información acerca de las pautas del proyecto y de qué se trata puede encontrarse [aquí](./information/project_presentation.pdf).
+La información específica sobre el proyecto con sus pautas se puede encontrar en esta [presentación](./information/project_presentation.pdf). El proyecto consistió en investigar y realizar un informe acerca de una herramienta de Model Checking elegida al azar (en base a nuestras preferencias) por el profesor. En nuestro caso, se trató sobre _CBMC_.
+
+Nuestro proyecto se enfoca en CBMC (C Bounded Model Checking), su origen, objetivo, usos, interfaz, estructura, comparaciones, casos de estudio y un caso de uso hecho por nosotros usando esta herramienta de verificación para romper un cifrado personalizado (resolver un problema de un CTF) para demostrar su potencial y versatilidad. El informe y la presentación se pueden encontrar en este [repositorio](https://github.com/helcsnewsxd/cbmc-analysis-report) público.
