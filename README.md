@@ -52,6 +52,7 @@ El equipo docente está únicamente conformado por Pedro Ruben D'Argenio.
 | 4    | [PDF](./exercises/statements/04.pdf)                                                         | [PDF](./exercises/solutions/04.pdf) |
 | 5    | [PDF](./exercises/statements/05.pdf)                                                         | [PDF](./exercises/solutions/05.pdf) |
 | 6    | [PDF](./exercises/statements/06.pdf)                                                         |                                     |
+| 7    | [PDF](./exercises/statements/07.pdf)                                                         |                                     |
 
 </div>
 
